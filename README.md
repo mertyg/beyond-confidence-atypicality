@@ -1,5 +1,5 @@
 # Beyond Confidence: Reliable Models Should Also Consider Atypicality (NeurIPS 2023)
-This is the repository for the paper **Beyond Confidence: Reliable Models Should Also Consider Atypicality (NeurIPS 2023)**. An earlier version of the paper appeared as a Contributed Talk at [ICLR 2023 Workshop on Trustworthy Machine Learning](https://sites.google.com/view/trustml-unlimited/home).
+This is the repository for the paper [**Beyond Confidence: Reliable Models Should Also Consider Atypicality (NeurIPS 2023)**](https://arxiv.org/abs/2305.18262). An earlier version of the paper appeared as a Contributed Talk at ICLR 2023 Workshop on Trustworthy Machine Learning.
 
 Overall, we demonstrate that machine learning models should also consider atypicality (i.e. how 'rare' a sample is) when making predictions. We show simple- and easy-to-implement atypicality estimators can provide significant value.
 # Atypicality Estimation
