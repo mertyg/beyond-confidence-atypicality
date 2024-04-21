@@ -80,6 +80,19 @@ def get_image_classifier(model_name, device="cuda"):
         model_bottom.device = device
         extractor = BasicEmbeddingWrapper(model_bottom, model_top, model_name)
 
+    elif model_name == "resnet152_places":
+        preprocess = transforms.Compose([
+                transforms.Resize(256),
+                transforms.CenterCrop(224),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ])
+        model = download_and_get_imbalanced(model_name)
+        model = model.eval()
+        model_bottom, model_top = ResNextBottom(model), ResNextTopNoSoftmax(model)
+        model_bottom.device = device
+        model_top.device = device
+        extractor = BasicEmbeddingWrapper(model_bottom, model_top, model_name)
     else:
         raise NotImplementedError("Unknown model name: {}".format(model_name))
     
