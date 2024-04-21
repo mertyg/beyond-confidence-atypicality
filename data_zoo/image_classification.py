@@ -76,5 +76,29 @@ def get_image_dataset(dataset_name, preprocess=None):
         test_dataset.dataset_name = "imagenet_lt_test"
         return train_dataset, val_dataset, test_dataset
     
+    elif dataset_name == "places_lt":
+        urls = {
+            "train": "https://github.com/facebookresearch/classifier-balancing/raw/main/data/Places_LT/Places_LT_train.txt",
+            "val": "https://github.com/facebookresearch/classifier-balancing/raw/main/data/Places_LT/Places_LT_val.txt",
+            "test": "https://github.com/facebookresearch/classifier-balancing/raw/main/data/Places_LT/Places_LT_test.txt"
+        }
+        cache_dir = os.environ.get("CACHE_DIR", "~/.cache")
+        places_dir = os.path.join(cache_dir, "imbalanced_places")
+        train_txt = os.path.join(places_dir, "train.txt")
+        val_txt = os.path.join(places_dir, "val.txt")
+        test_txt = os.path.join(places_dir, "test.txt")
+        if not os.path.exists(test_txt):
+            os.makedirs(os.path.dirname(test_txt), exist_ok=True)
+            subprocess.call(["wget", "-O", test_txt, urls["test"]])
+            subprocess.call(["wget", "-O", val_txt, urls["val"]])
+            subprocess.call(["wget", "-O", train_txt, urls["train"]])
+        
+        train_dataset = LT_Dataset(root=places_dir, txt=train_txt, transform=preprocess)
+        val_dataset = LT_Dataset(root=places_dir, txt=val_txt, transform=preprocess)
+        test_dataset = LT_Dataset(root=places_dir, txt=test_txt, transform=preprocess)
+        train_dataset.dataset_name = "places365_train"
+        val_dataset.dataset_name = "places365_val"
+        test_dataset.dataset_name = "places365_test"
+        return train_dataset, val_dataset, test_dataset
     else:
         raise NotImplementedError(f"Unknown dataset {dataset_name}")
